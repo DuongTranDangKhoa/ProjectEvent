@@ -23,7 +23,7 @@ import lombok.ToString;
 public class ComboDTO implements Serializable{
     private int no;
     private int id;
-    private int idmake;
+    private int idMake;
     private int quatity;
             
 }

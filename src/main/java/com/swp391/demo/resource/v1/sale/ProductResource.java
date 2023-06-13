@@ -8,6 +8,8 @@ import com.swp391.demo.dao.ComboDAO;
 import com.swp391.demo.dao.ProductDAO;
 import com.swp391.demo.dto.AccountShopDTO;
 import com.swp391.demo.dto.ComboDTO;
+import com.swp391.demo.dto.OrderCheckDTO;
+import com.swp391.demo.dto.ProductComboDTO;
 import com.swp391.demo.dto.ProductDTO;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -77,21 +79,28 @@ public class ProductResource {
         return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
 
-//    @Path("createCombo")
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response createCombo(ProductDTO pd, List<ComboDTO> dc) throws SQLException {
-//        boolean result = dao.creatProduct(pd);
-//        System.out.println(result);
-//        if (result) {
-//            int id = dao.getIdProduct(pd);
-//            System.out.println(id);
-//            result = dao1.addComboProduct(dc, id);
-//            if (result) {
-//                return Response.status(Response.Status.CREATED).build();
-//            }
-//        }
-//        return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-//
-//    }
+    @Path("createCombo")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createCombo(List<ProductComboDTO> pc) throws SQLException {
+        System.out.println(pc.get(0).toString());
+        boolean result = dao.creatProduct(pc.get(0));
+        System.out.println(result);
+        if (result) {
+            int id = dao.getIdProduct(pc.get(0));
+            System.out.println(id);
+            for (int i = 1; i < pc.size(); i++) {
+                System.out.println(pc.get(i).toString());
+                result = dao1.addComboProduct(pc.get(i), id);
+                System.out.println(result);
+            }
+            if (result) {
+                return Response.status(Response.Status.CREATED).build();
+            }
+        }
+        return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+    }
+    
+    
+
 }

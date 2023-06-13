@@ -37,7 +37,7 @@ public class CardResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response depositeCard(CardDTO dto) throws SQLException {
-        boolean result = dao.deposite(dto);
+        boolean result = dao.deposite(dto.getId(), dto.getBalance());
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();
         }
@@ -49,7 +49,7 @@ public class CardResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response withdrawCard(CardDTO dto) throws SQLException {
-        boolean result = dao.withdraw(dto);
+        boolean result = dao.withdraw(dto.getId(), dto.getBalance());
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();
         }
