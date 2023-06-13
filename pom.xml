@@ -61,12 +61,12 @@
             <scope>provided</scope>
         </dependency>
         
-        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+<!--         https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
-        </dependency>
+        </dependency>-->
 
 
         <dependency>
@@ -109,7 +109,7 @@
             <version>2.0-m09</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.allenru/cross-origin -->
+<!--         https://mvnrepository.com/artifact/com.allenru/cross-origin 
         <dependency>
             <groupId>com.allenru</groupId>
             <artifactId>cross-origin</artifactId>
@@ -120,14 +120,14 @@
                     <artifactId>spring-web</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>6.0.9</version>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
         <dependency>
