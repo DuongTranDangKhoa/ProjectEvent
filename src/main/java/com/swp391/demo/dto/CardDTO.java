@@ -22,9 +22,10 @@ import lombok.ToString;
 @ToString
 
 public class CardDTO implements Serializable {
+
     private int id;
+    private int eventId;
     private String name;
     private double balance;
-    private int eventId;
     private boolean status;
 }

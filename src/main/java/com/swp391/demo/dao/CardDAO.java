@@ -37,7 +37,7 @@ public class CardDAO implements Serializable {
             if (con != null) {
                 String sql = "Insert into Card(EventId) "
                         + "Values (?)";
-                stm = con.prepareStatement(sql);                
+                stm = con.prepareStatement(sql);
                 stm.setInt(1, dto.getEventId());
                 int x = stm.executeUpdate();
                 if (x != 0) {
@@ -56,9 +56,8 @@ public class CardDAO implements Serializable {
         return result;
     }
 
-    public Boolean deposite(CardDTO dto) throws SQLException {
+    public Boolean deposite(int cardId, double balance) throws SQLException {
         PreparedStatement stm = null;
-        double x = getbalance(dto.getId());
         boolean result = false;
         try {
             con = DBUtil.makeConnection();
@@ -67,8 +66,8 @@ public class CardDAO implements Serializable {
                         + " Set balance = ? "
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
-                stm.setDouble(1, x + dto.getBalance());
-                stm.setInt(2, dto.getId());
+                stm.setDouble(1, balance);
+                stm.setInt(2, cardId);
                 int i = stm.executeUpdate();
                 if (i > 0) {
                     result = true;
@@ -85,7 +84,7 @@ public class CardDAO implements Serializable {
         return result;
     }
 
-    public double getbalance(int CardId) throws SQLException {
+    public double getbalance(int cardId) throws SQLException {
         PreparedStatement stm = null;
         ResultSet rs = null;
         double balance = 0;
@@ -96,7 +95,7 @@ public class CardDAO implements Serializable {
                         + " From Card "
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, CardId);
+                stm.setInt(1, cardId);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     balance = rs.getDouble("balance");
@@ -118,9 +117,8 @@ public class CardDAO implements Serializable {
 
     }
 
-    public Boolean withdraw(CardDTO dto) throws SQLException {
+    public Boolean withdraw(int cardId, double balance) throws SQLException {
         PreparedStatement stm = null;
-        double x = getbalance(dto.getId());
         boolean result = false;
         try {
             con = DBUtil.makeConnection();
@@ -129,8 +127,8 @@ public class CardDAO implements Serializable {
                         + " Set balance = ? "
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
-                stm.setDouble(1, x - dto.getBalance());
-                stm.setInt(2, dto.getId());
+                stm.setDouble(1, balance);
+                stm.setInt(2, cardId);
                 int a = stm.executeUpdate();
                 if (a != 0) {
                     result = true;
@@ -176,5 +174,43 @@ public class CardDAO implements Serializable {
         }
         return result;
 
+    }
+
+    public CardDTO getInfoCard(CardDTO dto) throws SQLException {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        CardDTO result = null;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Select * "
+                        + " From Card "
+                        + " Where Id = ?";  // and EventId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, dto.getId());
+//                stm.setInt(2, dto.getEventId());
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int id = rs.getInt("Id");
+                    int eventId = rs.getInt("EventId");
+                    String username = rs.getString("Username");
+                    double balance = rs.getDouble("Balance");
+                    boolean status = rs.getBoolean("Status");
+                    result = new CardDTO(id, eventId, username, balance, status);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return result;
     }
 }
