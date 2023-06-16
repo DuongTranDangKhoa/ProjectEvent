@@ -126,12 +126,12 @@ public class OrderDAO implements Serializable {
                     stm.setString(2, begin);
                     stm.setString(3, end);
                     rs = stm.executeQuery();
-                    while (rs.next()) {
+                    if (rs.next()) {
                         String shopId = rs.getString("ShopId");
                         Double revenue = rs.getDouble("Revenue");
-                        OrderDTO result = new OrderDTO(0, shopId, 0, list.get(i).getBeginDate(), list.get(i).getEndDate(), revenue);
-                        System.out.println(list.get(0).getBeginDate());
-                        System.out.println(list.get(0).getEndDate());
+                        System.out.println(revenue + "----");
+                        System.out.println(list.get(i).getBeginDate() + " " + list.get(i).getEndDate());
+                        OrderDTO result = new OrderDTO(0, shopId, 0, list.get(i).getBeginDate(), list.get(i).getEndDate(), revenue);                       
                         if (this.listRevenue == null) {
                             this.listRevenue = new ArrayList<>();
                         }
