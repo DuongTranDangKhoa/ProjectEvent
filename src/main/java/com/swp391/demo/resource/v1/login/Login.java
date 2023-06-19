@@ -46,7 +46,7 @@ public class Login {
     @Produces(MediaType.APPLICATION_JSON)
 
     public Response checkLogin(AccountDTO dto) throws SQLException, URISyntaxException {
-        AccountDTO x = dao.CheckLogin(dto);
+        AccountDTO x = dao.checkLogin(dto);
         if (x == null) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
@@ -58,7 +58,7 @@ public class Login {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchCard(CardDTO dto) throws SQLException {
-        CardDTO x = dao1.getInfoCard(dto);
+        CardDTO x = dao1.getInfoCard(dto.getId());
 
         if (x == null) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();

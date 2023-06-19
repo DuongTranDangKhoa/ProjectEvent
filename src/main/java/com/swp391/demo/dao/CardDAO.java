@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,6 +21,8 @@ import java.sql.SQLException;
 public class CardDAO implements Serializable {
 
     public static CardDAO instance;
+    private List<CardDTO> listCard;
+    private Connection con = DBUtil.makeConnection();
 
     public static CardDAO getInstance() {
         if (instance == null) {
@@ -27,7 +31,12 @@ public class CardDAO implements Serializable {
         return instance;
     }
 
-    private Connection con = DBUtil.makeConnection();
+    public List<CardDTO> getListCard() {
+        return listCard;
+    }
+
+    
+    
 
     public Boolean CreateCard(CardDTO dto) throws SQLException {
         PreparedStatement stm = null;
@@ -176,7 +185,7 @@ public class CardDAO implements Serializable {
 
     }
 
-    public CardDTO getInfoCard(CardDTO dto) throws SQLException {
+    public CardDTO getInfoCard(int key) throws SQLException {
         PreparedStatement stm = null;
         ResultSet rs = null;
         CardDTO result = null;
@@ -187,7 +196,7 @@ public class CardDAO implements Serializable {
                         + " From Card "
                         + " Where Id = ?";  // and EventId = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, dto.getId());
+                stm.setInt(1, key);
 //                stm.setInt(2, dto.getEventId());
                 rs = stm.executeQuery();
                 if (rs.next()) {
@@ -212,5 +221,42 @@ public class CardDAO implements Serializable {
         }
 
         return result;
+    }
+    
+    public void getAllCard() throws SQLException {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        listCard = null;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Select * "
+                        + " From Card ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("Id");
+                    int eventId = rs.getInt("EventId");
+                    String username = rs.getString("Username");
+                    double balance = rs.getDouble("Balance");
+                    boolean status = rs.getBoolean("Status");
+                    CardDTO dto = new CardDTO(id, eventId, username, balance, status);
+                    if (listCard == null) {
+                        listCard = new ArrayList<>();
+                    }
+                    listCard.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 }

@@ -28,5 +28,5 @@ public class ProductComboDTO {
     private String description;
     private int categoryId;
     private int idMake;
-    private int quatity;
+    private int quantity;
 }

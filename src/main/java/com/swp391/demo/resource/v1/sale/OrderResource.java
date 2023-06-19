@@ -64,11 +64,10 @@ public class OrderResource {
             if (list.get(i).getCatagoryId() == 5) {
                 dao3.getInfoCombo(list.get(i).getProductId());
                 List<ComboDTO> cb = dao3.getListCombo();
-                System.out.println(cb.size());
                 for (int j = 0; j < cb.size(); j++) {
                     OrderDetailDTO dto = new OrderDetailDTO(id,
                             cb.get(j).getIdMake(),
-                            list.get(i).getQuantity() * cb.get(j).getQuatity(),
+                            list.get(i).getQuantity() * cb.get(j).getQuantity(),
                             dao2.getPrice(cb.get(j).getIdMake()),
                             0);
                     boolean x = dao1.createDetail(dto);

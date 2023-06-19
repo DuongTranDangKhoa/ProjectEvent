@@ -108,11 +108,6 @@ public class OrderDAO implements Serializable {
         this.listRevenue = null;
         String begin = list.get(0).getBeginDate() + " 00:00:00:000";
         String end = list.get(0).getEndDate() + " 23:59:59:999";
-        System.out.println(begin);
-        System.out.println(end);
-        System.out.println(list.get(0).getBeginDate());
-        System.out.println(list.get(0).getEndDate());
-
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
@@ -129,16 +124,13 @@ public class OrderDAO implements Serializable {
                     if (rs.next()) {
                         String shopId = rs.getString("ShopId");
                         Double revenue = rs.getDouble("Revenue");
-                        System.out.println(revenue + "----");
-                        System.out.println(list.get(i).getBeginDate() + " " + list.get(i).getEndDate());
-                        OrderDTO result = new OrderDTO(0, shopId, 0, list.get(i).getBeginDate(), list.get(i).getEndDate(), revenue);                       
+                         OrderDTO result = new OrderDTO(0, shopId, 0, list.get(i).getBeginDate(), list.get(i).getEndDate(), revenue);                       
                         if (this.listRevenue == null) {
                             this.listRevenue = new ArrayList<>();
                         }
                         this.listRevenue.add(result);
                     }
                 }
-
             }
         } finally {
             if (rs != null) {

@@ -49,7 +49,7 @@ public class ComboDAO implements Serializable {
 
                 stm.setInt(1, id);
                 stm.setInt(2, dto.getIdMake());
-                stm.setInt(3, dto.getQuatity());
+                stm.setInt(3, dto.getQuantity());
                 int i = stm.executeUpdate();
                 if (i > 0) {
                     result = true;

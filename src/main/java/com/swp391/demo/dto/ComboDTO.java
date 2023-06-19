@@ -24,6 +24,6 @@ public class ComboDTO implements Serializable{
     private int no;
     private int id;
     private int idMake;
-    private int quatity;
+    private int quantity;
             
 }

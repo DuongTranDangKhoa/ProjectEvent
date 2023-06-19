@@ -49,19 +49,18 @@ public class ProductDAO implements Serializable {
         return instance;
     }
 
-    public void getAllProductShop(AccountShopDTO dto) throws SQLException {
+    public void getAllProductShop(String key) throws SQLException {
         PreparedStatement stm = null;
         ResultSet rs = null;
         this.productAllList = null;
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "select p.Id, p.ShopId, p.Name, p.Price, p.Image, p.Description, p.CategoryId, p.Status "
-                        + "     from Product p, [AccountShop] sa "
-                        + "	where p.ShopId = sa.ShopId "
-                        + "	and sa.Username = ? and sa.Status = 'true'";
+                String sql = " Select Id, shopId, Name, Price, Image, Description, CategoryId, Status "
+                        + " From Product "
+                        + " Where ShopId = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getUsername());
+                stm.setString(1, key);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     Integer id = rs.getInt("Id");
@@ -97,19 +96,18 @@ public class ProductDAO implements Serializable {
 
     }
 
-    public void getSaleProductShop(AccountShopDTO dto) throws SQLException {
+    public void getSaleProductShop(String key) throws SQLException {
         PreparedStatement stm = null;
         ResultSet rs = null;
         this.productSaleList = null;
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "select p.Id, p.ShopId, p.Name, p.Price, p.Image, p.Discription, p.CategoryId "
-                        + "     from Product p, [ShopAccount] sa "
-                        + "	where p.ShopId = sa.ShopId "
-                        + "	and sa.Username = ? and sa.Status = 'false'";
+                String sql = "Select Id, ShopId, Name, Price, Image, Description, CategoryId, Status "
+                        + "     From Product "
+                        + "	Where ShopId = ? and Status = 'true'";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getUsername());
+                stm.setString(1, key);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     Integer id = rs.getInt("Id");
@@ -117,7 +115,7 @@ public class ProductDAO implements Serializable {
                     String name = rs.getString("Name");
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
-                    String content = rs.getString("Discription");
+                    String content = rs.getString("Description");
                     Integer categoryId = rs.getInt("CategoryId");
                     boolean status = rs.getBoolean("Status");
 

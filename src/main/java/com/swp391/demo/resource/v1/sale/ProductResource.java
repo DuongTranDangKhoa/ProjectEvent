@@ -39,7 +39,7 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
     public Response showAllProduct(AccountShopDTO dto) throws SQLException {
-        dao.getAllProductShop(dto);
+        dao.getAllProductShop(dto.getShopId());
         List<ProductDTO> list = dao.getAllProductList();
 
         return Response.ok(list).build();
@@ -50,7 +50,7 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("sale")
     public Response showSaleProduct(AccountShopDTO dto) throws SQLException {
-        dao.getSaleProductShop(dto);
+        dao.getSaleProductShop(dto.getShopId());
         List<ProductDTO> list = dao.getProductSaleList();
 
         return Response.ok(list).build();
