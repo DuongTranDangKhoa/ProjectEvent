@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'EIPS-SWP'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_09B14C43FB21495DBAF7BF828D663D8F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7755CCEA064844E4A53687DCB939240D }}
           package: '*.war'
