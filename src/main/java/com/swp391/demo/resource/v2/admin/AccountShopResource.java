@@ -22,18 +22,18 @@ public class AccountShopResource {
 
     private AccountShopDAO dao = AccountShopDAO.getInstance();
 
-    @Path("setRalationship")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response setRalationship(AccountShopDTO dto) throws SQLException {
-        boolean result = dao.setAccountShop(dto);
-        if (result) {
-            return Response.status(Response.Status.CREATED).build();
-
-        }
-        return Response.status(406, "Fail to set relationship").build();
-
-    }
+//    @Path("setRalationship")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Response setRalationship(AccountShopDTO dto) throws SQLException {
+//        boolean result = dao.setAccountShop(dto);
+//        if (result) {
+//            return Response.status(Response.Status.CREATED).build();
+//
+//        }
+//        return Response.status(406, "Fail to set relationship").build();
+//
+//    }
 
     @Path("setStatus")
     @POST

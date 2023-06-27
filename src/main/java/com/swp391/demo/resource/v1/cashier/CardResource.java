@@ -26,18 +26,23 @@ public class CardResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCard(CardDTO dto) throws SQLException {
+        boolean pc = dao.checkCardUpdate(dto.getId());
+        if (pc == true) {
+            return Response.status(406, "Card updated before").build();
+        }
         boolean result = dao.UpdateCard(dto);
         if (result) {
             return Response.status(Response.Status.CREATED).build();
         }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        return Response.status(406, "Fail to update card").build();
     }
 
     @Path("deposite")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response depositeCard(CardDTO dto) throws SQLException {
-        boolean result = dao.deposite(dto.getId(), dto.getBalance());
+        double balance = dao.getbalance(dto.getId());
+        boolean result = dao.deposite(dto.getId(), balance + dto.getBalance());
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();
         }
@@ -49,7 +54,8 @@ public class CardResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response withdrawCard(CardDTO dto) throws SQLException {
-        boolean result = dao.withdraw(dto.getId(), dto.getBalance());
+        double balance = dao.getbalance(dto.getId());
+        boolean result = dao.withdraw(dto.getId(), balance - dto.getBalance());
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();
         }

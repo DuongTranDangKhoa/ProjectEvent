@@ -26,7 +26,7 @@ public class ProductComboDTO {
     private double price;
     private String img;
     private String description;
-    private int categoryId;
+    private String category;
     private int idMake;
     private int quantity;
 }

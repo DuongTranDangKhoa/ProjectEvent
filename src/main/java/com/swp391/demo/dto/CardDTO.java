@@ -25,7 +25,8 @@ public class CardDTO implements Serializable {
 
     private int id;
     private int eventId;
-    private String name;
+    private String username;
     private double balance;
+    private String phoneNumber;
     private boolean status;
 }

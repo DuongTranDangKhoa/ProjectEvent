@@ -35,9 +35,6 @@ public class CardDAO implements Serializable {
         return listCard;
     }
 
-    
-    
-
     public Boolean CreateCard(CardDTO dto) throws SQLException {
         PreparedStatement stm = null;
         boolean result = false;
@@ -162,12 +159,13 @@ public class CardDAO implements Serializable {
             con = DBUtil.makeConnection();
             if (con != null) {
                 String sql = "Update Card "
-                        + " Set Username = ?, Balance = ?"
+                        + " Set Username = ?, Balance = ?, PhoneNumber = ?"
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getName());
+                stm.setString(1, dto.getUsername());
                 stm.setDouble(2, dto.getBalance());
                 stm.setInt(3, dto.getId());
+                stm.setString(4, dto.getPhoneNumber());
                 int x = stm.executeUpdate();
                 if (x > 0) {
                     result = true;
@@ -204,8 +202,9 @@ public class CardDAO implements Serializable {
                     int eventId = rs.getInt("EventId");
                     String username = rs.getString("Username");
                     double balance = rs.getDouble("Balance");
+                    String phoneNumber = rs.getString("PhoneNumber");
                     boolean status = rs.getBoolean("Status");
-                    result = new CardDTO(id, eventId, username, balance, status);
+                    result = new CardDTO(id, eventId, username, balance, phoneNumber, status);
                 }
             }
         } finally {
@@ -222,7 +221,7 @@ public class CardDAO implements Serializable {
 
         return result;
     }
-    
+
     public void getAllCard() throws SQLException {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -239,8 +238,9 @@ public class CardDAO implements Serializable {
                     int eventId = rs.getInt("EventId");
                     String username = rs.getString("Username");
                     double balance = rs.getDouble("Balance");
+                    String phoneNumber = rs.getString("PhoneNumber");
                     boolean status = rs.getBoolean("Status");
-                    CardDTO dto = new CardDTO(id, eventId, username, balance, status);
+                    CardDTO dto = new CardDTO(id, eventId, username, balance, phoneNumber, status);
                     if (listCard == null) {
                         listCard = new ArrayList<>();
                     }
@@ -258,5 +258,38 @@ public class CardDAO implements Serializable {
                 con.close();
             }
         }
+    }
+
+    public boolean checkCardUpdate(int key) throws SQLException {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Select * from Card "
+                        + " Where Id = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, key);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    String username = rs.getString("Username");
+                    if (username != null) {
+                        result = true;
+                    }
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
     }
 }

@@ -17,28 +17,20 @@ import java.sql.SQLException;
  *
  * @author lnhtr
  */
-@Path("v1/admin")
+@Path("v1/admin/setStatus")
 public class AccountShopResource {
 
     private AccountShopDAO dao = AccountShopDAO.getInstance();
 
-    @Path("setRalationship")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setRalationship(AccountShopDTO dto) throws SQLException {
-        boolean result = dao.setAccountShop(dto);
-        if (result) {
-            return Response.status(Response.Status.CREATED).build();
-
+    public Response setStatus(AccountShopDTO dto) throws SQLException {
+        if (dto.isStatus()) {
+            boolean i = dao.checkStatusExist(dto.getUsername());
+            if (i) {
+                return Response.status(406, "Account has having relationship with other shop").build();
+            }
         }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-
-    }
-
-    @Path("setStatus")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response setStatus(AccountShopDTO dto) throws SQLException{
         boolean result = dao.setStatus(dto);
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();

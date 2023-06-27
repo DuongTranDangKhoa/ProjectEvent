@@ -32,5 +32,5 @@ public class OrderCheckDTO implements Serializable{
     private double price;
     
     //sua thanh String khi lam xong
-    private int catagoryId;     //orderDetail
+    private String category;     //orderDetail
 }

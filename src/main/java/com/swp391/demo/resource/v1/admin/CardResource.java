@@ -32,4 +32,17 @@ public class CardResource {
         }
         return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
+
+    @Path("create50")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create50Card(CardDTO dto) throws SQLException {
+        for (int i = 0; i < 50; i++) {
+            boolean result = dao.CreateCard(dto);
+            if (result == false) {
+                return Response.status(406,"Fail to Create Create Card").build();
+            }
+        }
+        return Response.status(Response.Status.CREATED).build();
+    }
 }

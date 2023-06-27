@@ -9,6 +9,7 @@ import com.swp391.demo.util.DBUtil;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -27,17 +28,19 @@ public class AccountShopDAO implements Serializable {
         return instance;
     }
 
-    public boolean setAccountShop(AccountShopDTO dto) throws SQLException {
+    public boolean setStatus(AccountShopDTO dto) throws SQLException {
         PreparedStatement stm = null;
-        boolean result = false;
+        Boolean result = false;
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "Insert into AccountShop(Username, ShopId) "
-                        + " Values(?,?)";
+                String sql = "Update AccountShop "
+                        + " Set Status = ? "
+                        + "  Where Username = ? And ShopId = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getUsername());
-                stm.setString(2, dto.getShopId());
+                stm.setBoolean(1, dto.isStatus());
+                stm.setString(2, dto.getUsername());
+                stm.setString(3, dto.getShopId());
                 int i = stm.executeUpdate();
                 if (i > 0) {
                     result = true;
@@ -53,25 +56,27 @@ public class AccountShopDAO implements Serializable {
         }
         return result;
     }
-    
-    public boolean setStatus(AccountShopDTO dto) throws SQLException{
+
+    public boolean checkStatusExist(String username) throws SQLException {
         PreparedStatement stm = null;
-        Boolean result = false;
+        ResultSet rs = null;
+        boolean result = false;
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "Update AccountShop "
-                        + "Set Status = 'false' "
-                        + "Where Username = ? and ShopId = ?";
+                String sql = "Select * From AccountShop "
+                        + " Where Username = ? and Status  = 'true'";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getUsername());
-                stm.setString(2, dto.getShopId());
-                int x = stm.executeUpdate();
-                if (x > 0) {
+                stm.setString(1, username);
+                rs = stm.executeQuery();
+                if (rs.next()) {
                     result = true;
                 }
             }
         } finally {
+            if (rs != null) {
+                rs.close();
+            }
             if (stm != null) {
                 stm.close();
             }
@@ -81,5 +86,4 @@ public class AccountShopDAO implements Serializable {
         }
         return result;
     }
-
 }

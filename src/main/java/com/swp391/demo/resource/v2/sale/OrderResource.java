@@ -61,7 +61,7 @@ public class OrderResource {
             return Response.status(406, "Can not withdraw money").build();
         }
         for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).getCatagoryId() == 5) {
+            if (list.get(i).getCategory().equals("Combo")) {
                 dao3.getInfoCombo(list.get(i).getProductId());
                 List<ComboDTO> cb = dao3.getListCombo();
                 System.out.println(cb.size());

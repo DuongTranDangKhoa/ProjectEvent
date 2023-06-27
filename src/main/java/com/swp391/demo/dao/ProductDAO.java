@@ -56,7 +56,7 @@ public class ProductDAO implements Serializable {
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = " Select Id, shopId, Name, Price, Image, Description, CategoryId, Status "
+                String sql = " Select Id, shopId, Name, Price, Image, Description, Category, Status "
                         + " From Product "
                         + " Where ShopId = ?";
                 stm = con.prepareStatement(sql);
@@ -69,10 +69,10 @@ public class ProductDAO implements Serializable {
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
                     String description = rs.getString("Description");
-                    Integer categoryId = rs.getInt("CategoryId");
+                    String category = rs.getString("Category");
                     boolean status = rs.getBoolean("Status");
 
-                    ProductDTO x = new ProductDTO(id, shopId, name, price, img, description, categoryId, status);
+                    ProductDTO x = new ProductDTO(id, shopId, name, price, img, description, category, status);
                     if (this.productAllList == null) {
                         this.productAllList = new ArrayList<>();
                     }
@@ -103,7 +103,7 @@ public class ProductDAO implements Serializable {
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "Select Id, ShopId, Name, Price, Image, Description, CategoryId, Status "
+                String sql = "Select Id, ShopId, Name, Price, Image, Description, Category, Status "
                         + "     From Product "
                         + "	Where ShopId = ? and Status = 'true'";
                 stm = con.prepareStatement(sql);
@@ -116,10 +116,10 @@ public class ProductDAO implements Serializable {
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
                     String content = rs.getString("Description");
-                    Integer categoryId = rs.getInt("CategoryId");
+                    String category = rs.getString("Category");
                     boolean status = rs.getBoolean("Status");
 
-                    ProductDTO x = new ProductDTO(id, shopId, name, price, img, content, categoryId, status);
+                    ProductDTO x = new ProductDTO(id, shopId, name, price, img, content, category, status);
                     if (this.productSaleList == null) {
                         this.productSaleList = new ArrayList<>();
                     }
@@ -143,18 +143,22 @@ public class ProductDAO implements Serializable {
 
     }
 
-    public boolean setProductStatus(ProductDTO dto) throws SQLException {
+    public boolean updateProduct(ProductDTO dto) throws SQLException {
         PreparedStatement stm = null;
         boolean result = false;
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
                 String sql = "Update Product "
-                        + " Set Status = ?"
+                        + " Set Status = ?, Name = ?, Price = ?, Image = ?, Description = ? "
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
                 stm.setBoolean(1, dto.isStatus());
-                stm.setInt(2, dto.getId());
+                stm.setString(2, dto.getName());
+                stm.setDouble(3, dto.getPrice());
+                stm.setString(4, dto.getImg());
+                stm.setString(5, dto.getDescription());
+                stm.setInt(6, dto.getId());
                 int i = stm.executeUpdate();
                 if (i > 0) {
                     result = true;
@@ -177,7 +181,7 @@ public class ProductDAO implements Serializable {
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "Insert into Product (ShopId, Name, Price, Image, Description, categoryId) "
+                String sql = "Insert into Product (ShopId, Name, Price, Image, Description, Category) "
                         + "Values (?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getShopId());
@@ -185,7 +189,7 @@ public class ProductDAO implements Serializable {
                 stm.setDouble(3, dto.getPrice());
                 stm.setString(4, dto.getImg());
                 stm.setString(5, dto.getDescription());
-                stm.setInt(6, dto.getCategoryId());
+                stm.setString(6, dto.getCategory());
                 int i = stm.executeUpdate();
                 if (i > 0) {
                     result = true;
@@ -210,10 +214,12 @@ public class ProductDAO implements Serializable {
             con = DBUtil.makeConnection();
             if (con != null) {
                 String sql = "Select Id From Product "
-                        + " Where Image = ?";
+                        + " Where Image = ?  and ShopId = ? and [Description] = ? and name =?";
                 stm = con.prepareStatement(sql);
-
                 stm.setString(1, dto.getImg());
+                stm.setString(2, dto.getShopId());
+                stm.setString(3, dto.getDescription());
+                stm.setString(4, dto.getName());
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     result = rs.getInt("Id");
@@ -240,7 +246,7 @@ public class ProductDAO implements Serializable {
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
-                String sql = "Insert into Product (ShopId, Name, Price, Image, Description, categoryId) "
+                String sql = "Insert into Product (ShopId, Name, Price, Image, Description, Category) "
                         + "Values (?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getShopId());
@@ -248,7 +254,7 @@ public class ProductDAO implements Serializable {
                 stm.setDouble(3, dto.getPrice());
                 stm.setString(4, dto.getImg());
                 stm.setString(5, dto.getDescription());
-                stm.setInt(6, dto.getCategoryId());
+                stm.setString(6, dto.getCategory());
                 int i = stm.executeUpdate();
                 if (i > 0) {
                     result = true;
@@ -286,10 +292,10 @@ public class ProductDAO implements Serializable {
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
                     String description = rs.getString("Description");
-                    Integer categoryId = rs.getInt("CategoryId");
+                    String category = rs.getString("Category");
                     boolean status = rs.getBoolean("Status");
 
-                    ProductDTO x = new ProductDTO(id, shopId, name, price, img, description, categoryId, status);
+                    ProductDTO x = new ProductDTO(id, shopId, name, price, img, description, category, status);
                     if (this.productAllList == null) {
                         this.productAllList = new ArrayList<>();
                     }

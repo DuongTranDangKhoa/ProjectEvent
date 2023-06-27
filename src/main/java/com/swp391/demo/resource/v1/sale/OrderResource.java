@@ -46,6 +46,7 @@ public class OrderResource {
 //        dao2.getProductShop(list.get(0).getShopId());
 //        List<ProductDTO> pl = dao2.getProductList();
         int id = dao.checkOrderId();
+        System.out.println(id);
         boolean result = dao.createOrder(list.get(0), id);
         if (!result) {
             return Response.status(406, "Can not Create Order").build();
@@ -61,7 +62,7 @@ public class OrderResource {
             return Response.status(406, "Can not withdraw money").build();
         }
         for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).getCatagoryId() == 5) {
+            if (list.get(i).getCategory().equals("Combo")) {
                 dao3.getInfoCombo(list.get(i).getProductId());
                 List<ComboDTO> cb = dao3.getListCombo();
                 for (int j = 0; j < cb.size(); j++) {
@@ -83,7 +84,7 @@ public class OrderResource {
                         0);
                 boolean x = dao1.createDetail(dto);
                 if (x == false) {
-                    return Response.status(406,"Fail when insetrt orderdetail Product").build();
+                    return Response.status(406, "Fail when insetrt orderdetail Product").build();
                 }
             }
         }

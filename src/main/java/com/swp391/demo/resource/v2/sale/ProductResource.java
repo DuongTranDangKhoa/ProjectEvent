@@ -65,7 +65,7 @@ public class ProductResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("setStatus")
     public Response updateProductStatus(ProductDTO dto) throws SQLException {
-        boolean result = dao.setProductStatus(dto);
+        boolean result = dao.updateProduct(dto);
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();
         }

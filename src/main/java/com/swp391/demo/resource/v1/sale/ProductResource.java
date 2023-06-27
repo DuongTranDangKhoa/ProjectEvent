@@ -58,9 +58,9 @@ public class ProductResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("setStatus")
+    @Path("update")
     public Response updateProductStatus(ProductDTO dto) throws SQLException {
-        boolean result = dao.setProductStatus(dto);
+        boolean result = dao.updateProduct(dto);
         if (result) {
             return Response.status(Response.Status.ACCEPTED).build();
         }
@@ -83,9 +83,7 @@ public class ProductResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCombo(List<ProductComboDTO> pc) throws SQLException {
-        System.out.println(pc.get(0).toString());
         boolean result = dao.creatProduct(pc.get(0));
-        System.out.println(result);
         if (result) {
             int id = dao.getIdProduct(pc.get(0));
             System.out.println(id);
