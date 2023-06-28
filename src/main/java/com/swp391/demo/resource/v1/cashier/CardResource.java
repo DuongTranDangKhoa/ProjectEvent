@@ -32,7 +32,7 @@ public class CardResource {
         }
         boolean result = dao.UpdateCard(dto);
         if (result) {
-            return Response.status(Response.Status.CREATED).build();
+            return Response.status(Response.Status.ACCEPTED).build();
         }
         return Response.status(406, "Fail to update card").build();
     }

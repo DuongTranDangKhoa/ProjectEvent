@@ -1,3 +1,4 @@
+C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dto\ImageEventDTO.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\resource\v1\general\GeneralResource.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\resource\v1\admin\AccountShopResource.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\config\CorsConfig.java
@@ -6,8 +7,10 @@ C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dto\EventDT
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dao\EventDAO.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dto\AccountDTO.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dto\CardDTO.java
+C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\resource\v1\admin\ImageEventResource.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dto\OrderDetailDTO.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dao\AccountSetDAO.java
+C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dao\ImageEventDAO.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\dto\TransactionDTO.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\resource\v2\admin\AccountShopResource.java
 C:\UniversityFPT\Semester5\Swp391\demo\src\main\java\com\swp391\demo\resource\v2\general\GeneralResource.java
