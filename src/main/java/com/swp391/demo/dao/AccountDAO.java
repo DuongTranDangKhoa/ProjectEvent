@@ -164,4 +164,37 @@ public class AccountDAO {
         }
         return result;
     }
+    
+    
+    public boolean updateAccount(AccountDTO dto) throws SQLException {
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Update Account "
+                        + " Set Password = ?, Name = ?, Status = ? "
+                        + " Where Username = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, dto.getPassword());
+                stm.setString(2, dto.getName());
+                stm.setBoolean(3, dto.isStatus());
+                stm.setString(4, dto.getUsername());
+                int i = stm.executeUpdate();
+                if (i > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
 }

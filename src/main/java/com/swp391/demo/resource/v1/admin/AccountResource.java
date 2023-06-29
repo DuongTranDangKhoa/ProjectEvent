@@ -64,4 +64,17 @@ public class AccountResource {
         return Response.status(406, "Account has existed").build();
     }
 
+    @Path("update")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateAccount(AccountDTO dto) throws SQLException {
+
+        boolean result = dao.updateAccount(dto);
+
+        if (result) {
+            
+            return Response.status(Response.Status.ACCEPTED).build();
+        }
+        return Response.status(406, "Fail to update Account").build();
+    }
 }

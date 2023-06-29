@@ -80,12 +80,9 @@ public class GeneralResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewRevenue(List<OrderDTO> list) throws SQLException {
-        dao2.viewRevenue(list);
-        List<OrderDTO> x = dao2.getListRevenue();
+    public Response viewRevenue(OrderDTO dto) throws SQLException {
+        OrderDTO x = dao2.viewRevenue(dto);
         if (x != null) {
-            System.out.println(x.get(0).getBeginDate());
-            System.out.println(x.get(0).getEndDate());
             return Response.accepted(x).build();
 
         }

@@ -40,7 +40,7 @@ public class EventResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllEvent() throws SQLException {
-       
+
         dao.getAllEvent();
         List<EventDTO> list = dao.getListEvent();
         if (list.isEmpty()) {
@@ -49,6 +49,17 @@ public class EventResource {
         }
         return Response.ok(list).build();
 
+    }
+
+    @Path("update")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateEvent(EventDTO dto) throws SQLException {
+        boolean result = dao.updateEvent(dto);
+        if (result) {
+            return Response.status(Response.Status.ACCEPTED).build();
+        }
+        return Response.status(406, "Fail to update Event").build();
     }
 
 }

@@ -109,4 +109,38 @@ public class EventDAO implements Serializable {
             }
         }
     }
+    
+    public boolean updateEvent(EventDTO dto) throws SQLException {
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Update Event "
+                        + " Set Name = ?, Desrciption = ?, BeginDate = ?, EndDate = ?, Status = ?, Image = ?"
+                        + " Where Id = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, dto.getName());
+                stm.setString(2, dto.getDescription());
+                stm.setDate(3, dto.getBeginDate());
+                stm.setDate(4, dto.getEndDate());
+                stm.setBoolean(5, dto.isStatus());
+                stm.setString(6, dto.getImg());
+                stm.setInt(7, dto.getId());
+                int i = stm.executeUpdate();
+                if (i > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 }

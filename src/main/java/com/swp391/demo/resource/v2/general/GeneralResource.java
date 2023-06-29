@@ -57,16 +57,16 @@ public class GeneralResource {
         return Response.accepted(x).build();
     }
 
-    @Path("viewRevenue")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response viewRevenue(List<OrderDTO> list) throws SQLException {
-        dao2.viewRevenue(list);
-        List<OrderDTO> x = dao2.getListRevenue();
-        if (x != null) {
-            return Response.accepted(x).build();
-        }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-    }
+//    @Path("viewRevenue")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response viewRevenue(List<OrderDTO> list) throws SQLException {
+//        dao2.viewRevenue(list);
+//        List<OrderDTO> x = dao2.getListRevenue();
+//        if (x != null) {
+//            return Response.accepted(x).build();
+//        }
+//        return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+//    }
 }

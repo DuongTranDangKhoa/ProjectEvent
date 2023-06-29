@@ -102,12 +102,12 @@ public class OrderDAO implements Serializable {
         return result;
     }
 
-    public void viewRevenue(List<OrderDTO> list) throws SQLException {
+    public OrderDTO viewRevenue(OrderDTO dto) throws SQLException {
         PreparedStatement stm = null;
         ResultSet rs = null;
-        this.listRevenue = null;
-        String begin = list.get(0).getBeginDate() + " 00:00:00:000";
-        String end = list.get(0).getEndDate() + " 23:59:59:999";
+        OrderDTO result = null;
+        String begin = dto.getBeginDate() + " 00:00:00:000";
+        String end = dto.getEndDate() + " 23:59:59:999";
         try {
             con = DBUtil.makeConnection();
             if (con != null) {
@@ -116,21 +116,17 @@ public class OrderDAO implements Serializable {
                         + " and Date  between ? and ? "
                         + " Group by ShopID";
                 stm = con.prepareStatement(sql);
-                for (int i = 0; i < list.size(); i++) {
-                    stm.setString(1, list.get(i).getShopId());
+                
+                    stm.setString(1, dto.getShopId());
                     stm.setString(2, begin);
                     stm.setString(3, end);
                     rs = stm.executeQuery();
                     if (rs.next()) {
                         String shopId = rs.getString("ShopId");
                         Double revenue = rs.getDouble("Revenue");
-                         OrderDTO result = new OrderDTO(0, shopId, 0, list.get(i).getBeginDate(), list.get(i).getEndDate(), revenue);                       
-                        if (this.listRevenue == null) {
-                            this.listRevenue = new ArrayList<>();
-                        }
-                        this.listRevenue.add(result);
+                        result = new OrderDTO(0, shopId, 0, dto.getBeginDate(), dto.getEndDate(), revenue);                       
+                     
                     }
-                }
             }
         } finally {
             if (rs != null) {
@@ -143,6 +139,6 @@ public class OrderDAO implements Serializable {
                 con.close();
             }
         }
-
+        return result;
     }
 }
