@@ -40,8 +40,15 @@ public class GeneralResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public AccountDTO getBook() {
-        return new AccountDTO("123", "123", "toi hom qua", "sales", true);
+    public Response getBook() {
+        AccountDTO dto = new AccountDTO("123", "123", "toi hom qua", "sales", true);
+        try {
+            return Response.ok(dto).build();
+        } catch (Exception e) {
+            System.out.println("error" + e.getMessage());
+        }
+        return Response.ok(dto).build();
+
     }
 
     @Path("login")
