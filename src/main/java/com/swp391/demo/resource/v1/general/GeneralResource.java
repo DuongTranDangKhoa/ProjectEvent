@@ -71,7 +71,7 @@ public class GeneralResource {
         CardDTO x = dao1.getInfoCard(dto.getId());
 
         if (x == null) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            return Response.status(406,"Card has not exist").build();
         }
         return Response.accepted(x).build();
     }

@@ -42,11 +42,24 @@ public class ShopResource {
     @Path("{eventId}")
     @GET    
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ShopDTO> getListShop(@PathParam("eventId") int id) throws SQLException {
+    public Response getListShop(@PathParam("eventId") int id) throws SQLException {
         dao.getShopInEvent(id);
-
-        return dao.getShopList();
+        List<ShopDTO> list = dao.getShopList();
+        if (list == null) {
+            return  Response.status(406, "The event has not shop").build();
+        }
+        return Response.ok(list).build();
     }
     
+    @Path("update")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateShop(ShopDTO dto) throws SQLException{
+        boolean result = dao.updateShop(dto);
+        if (result) {
+            return Response.status(202).build();
+        }
+        return  Response.status(406, "Fail to update Shop ").build();
+    }
     
 }
