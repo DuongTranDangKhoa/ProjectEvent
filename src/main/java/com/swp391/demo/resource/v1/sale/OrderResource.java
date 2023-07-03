@@ -12,16 +12,20 @@ import com.swp391.demo.dao.ProductDAO;
 import com.swp391.demo.dao.TransactionDAO;
 import com.swp391.demo.dto.ComboDTO;
 import com.swp391.demo.dto.OrderCheckDTO;
+import com.swp391.demo.dto.OrderDetailCheckDTO;
 import com.swp391.demo.dto.OrderDetailDTO;
 import com.swp391.demo.dto.ProductDTO;
 import com.swp391.demo.dto.TransactionDTO;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,5 +93,26 @@ public class OrderResource {
             }
         }
         return Response.status(Response.Status.ACCEPTED).build();
+    }
+
+    @Path("checkProductSold/{shopId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response checkProductSold(@PathParam("shopId") String shopId) throws SQLException {
+        dao2.getAllProductShop(shopId);
+        List<ProductDTO> productList = dao2.getAllProductList();
+        dao1.viewQuatityProduct(shopId);
+        List<OrderDetailDTO> productSoldList = dao1.getListProductSold();
+        List<OrderDetailCheckDTO> list = new ArrayList<>();
+        for (OrderDetailDTO x : productSoldList) {
+            for (ProductDTO i : productList) {
+                if (x.getProductId() == i.getId()) {
+                    OrderDetailCheckDTO dto = new OrderDetailCheckDTO(x.getProductId(), i.getShopId(), i.getName(), i.getImg(), i.getDescription(), i.getCategory(), x.getQuantity());
+                    list.add(dto);
+                    break;
+                }
+            }
+        }
+        return Response.ok(list).build();
     }
 }

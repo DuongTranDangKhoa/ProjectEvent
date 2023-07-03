@@ -10,24 +10,33 @@ import com.swp391.demo.util.DBUtil;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author lnhtr
  */
 public class OrderDetailDAO implements Serializable {
-
+    
     private Connection con = DBUtil.makeConnection();
     private static OrderDetailDAO instance;
+    private List<OrderDetailDTO> listProductSold;
 
+    public List<OrderDetailDTO> getListProductSold() {
+        return listProductSold;
+    }
+    
+    
     public static OrderDetailDAO getInstance() {
         if (instance == null) {
             instance = new OrderDetailDAO();
         }
         return instance;
     }
-
+    
     public boolean createDetail(OrderDetailDTO dto) throws SQLException {
         PreparedStatement stm = null;
         boolean result = false;
@@ -56,7 +65,46 @@ public class OrderDetailDAO implements Serializable {
                 con.close();
             }
         }
-
+        
         return result;
+    }
+    
+    public void viewQuatityProduct(String key) throws SQLException {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        listProductSold = null;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Select od.ProductId, SUM(od.Quantity) as Quantity from [Order] o, OrderDetail od \n"
+                        + " where o.Id = od.OrderId"
+                        + " and o.ShopId = ? "
+                        + " Group by od.ProductId";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, key);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productId = rs.getInt("ProductId");
+                    int quantity = rs.getInt("Quantity");
+                    OrderDetailDTO dto = new  OrderDetailDTO(0, productId, quantity, 0, 0);
+                    if (listProductSold == null) {
+                        listProductSold = new ArrayList<>();
+                    }
+                    listProductSold.add(dto);
+                }
+                
+            }
+            
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 }
