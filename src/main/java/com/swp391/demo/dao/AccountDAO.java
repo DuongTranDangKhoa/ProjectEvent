@@ -52,7 +52,7 @@ public class AccountDAO {
                 stm.setString(2, account.getPassword());
                 rs = stm.executeQuery();
                 if (rs.next()) {
-                    String name = rs.getString("Name");
+                    String name = rs.getNString("Name");
                     String role = rs.getString("Role");
                     Boolean status = rs.getBoolean("Status");
                     dto = new AccountDTO(account.getUsername(), account.getPassword(), name, role, status);
@@ -83,7 +83,7 @@ public class AccountDAO {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getUsername());
                 stm.setString(2, dto.getPassword());
-                stm.setString(3, dto.getName());
+                stm.setNString(3, dto.getName());
                 stm.setString(4, dto.getRole());
                 stm.execute();
             }
@@ -112,7 +112,7 @@ public class AccountDAO {
                 while(rs.next()){
                     String username = rs.getString("Username");
                     String password = rs.getString("Password");
-                    String name = rs.getString("Name");
+                    String name = rs.getNString("Name");
                     String role = rs.getString("Role");
                     boolean status = rs.getBoolean("Status");
                     AccountDTO dto = new AccountDTO(username, password, name, role, status);
@@ -177,7 +177,7 @@ public class AccountDAO {
                         + " Where Username = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getPassword());
-                stm.setString(2, dto.getName());
+                stm.setNString(2, dto.getName());
                 stm.setBoolean(3, dto.isStatus());
                 stm.setString(4, dto.getUsername());
                 int i = stm.executeUpdate();

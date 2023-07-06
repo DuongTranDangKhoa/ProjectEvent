@@ -41,7 +41,7 @@ public class AccountSetDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getUsername());
                 stm.setString(2, dto.getPassword());
-                stm.setString(3, dto.getName());
+                stm.setNString(3, dto.getName());
                 stm.setString(4, dto.getRole());
                 stm.execute();
                 

@@ -65,10 +65,10 @@ public class ProductDAO implements Serializable {
                 while (rs.next()) {
                     Integer id = rs.getInt("Id");
                     String shopId = rs.getString("ShopId");
-                    String name = rs.getString("Name");
+                    String name = rs.getNString("Name");
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
-                    String description = rs.getString("Description");
+                    String description = rs.getNString("Description");
                     String category = rs.getString("Category");
                     boolean status = rs.getBoolean("Status");
 
@@ -112,10 +112,10 @@ public class ProductDAO implements Serializable {
                 while (rs.next()) {
                     Integer id = rs.getInt("Id");
                     String shopId = rs.getString("ShopId");
-                    String name = rs.getString("Name");
+                    String name = rs.getNString("Name");
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
-                    String content = rs.getString("Description");
+                    String content = rs.getNString("Description");
                     String category = rs.getString("Category");
                     boolean status = rs.getBoolean("Status");
 
@@ -154,10 +154,10 @@ public class ProductDAO implements Serializable {
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
                 stm.setBoolean(1, dto.isStatus());
-                stm.setString(2, dto.getName());
+                stm.setNString(2, dto.getName());
                 stm.setDouble(3, dto.getPrice());
                 stm.setString(4, dto.getImg());
-                stm.setString(5, dto.getDescription());
+                stm.setNString(5, dto.getDescription());
                 stm.setInt(6, dto.getId());
                 int i = stm.executeUpdate();
                 if (i > 0) {
@@ -185,10 +185,10 @@ public class ProductDAO implements Serializable {
                         + "Values (?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getShopId());
-                stm.setString(2, dto.getName());
+                stm.setNString(2, dto.getName());
                 stm.setDouble(3, dto.getPrice());
                 stm.setString(4, dto.getImg());
-                stm.setString(5, dto.getDescription());
+                stm.setNString(5, dto.getDescription());
                 stm.setString(6, dto.getCategory());
                 int i = stm.executeUpdate();
                 if (i > 0) {
@@ -218,8 +218,8 @@ public class ProductDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getImg());
                 stm.setString(2, dto.getShopId());
-                stm.setString(3, dto.getDescription());
-                stm.setString(4, dto.getName());
+                stm.setNString(3, dto.getDescription());
+                stm.setNString(4, dto.getName());
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     result = rs.getInt("Id");
@@ -250,10 +250,10 @@ public class ProductDAO implements Serializable {
                         + "Values (?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getShopId());
-                stm.setString(2, dto.getName());
+                stm.setNString(2, dto.getName());
                 stm.setDouble(3, dto.getPrice());
                 stm.setString(4, dto.getImg());
-                stm.setString(5, dto.getDescription());
+                stm.setNString(5, dto.getDescription());
                 stm.setString(6, dto.getCategory());
                 int i = stm.executeUpdate();
                 if (i > 0) {
@@ -288,10 +288,10 @@ public class ProductDAO implements Serializable {
                 while (rs.next()) {
                     Integer id = rs.getInt("Id");
                     String shopId = rs.getString("ShopId");
-                    String name = rs.getString("Name");
+                    String name = rs.getNString("Name");
                     Double price = rs.getDouble("Price");
                     String img = rs.getString("Image");
-                    String description = rs.getString("Description");
+                    String description = rs.getNString("Description");
                     String category = rs.getString("Category");
                     boolean status = rs.getBoolean("Status");
 

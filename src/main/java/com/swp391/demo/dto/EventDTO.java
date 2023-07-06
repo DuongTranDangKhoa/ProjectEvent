@@ -20,15 +20,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-public class EventDTO implements Serializable{
+
+public class EventDTO implements Serializable {
+
     private int id;
+    private String img;
     private String name;
     private String description;
     private Date beginDate;
     private Date endDate;
     private String area;
     private String username;
-    private String img;
     private boolean status;
+    
 }

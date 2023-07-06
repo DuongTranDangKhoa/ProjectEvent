@@ -162,7 +162,7 @@ public class CardDAO implements Serializable {
                         + " Set Username = ?, Balance = ?, PhoneNumber = ?"
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getUsername());
+                stm.setNString(1, dto.getUsername());
                 stm.setDouble(2, dto.getBalance());
                 stm.setString(3, dto.getPhoneNumber());
                 stm.setInt(4, dto.getId());

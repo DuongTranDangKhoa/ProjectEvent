@@ -45,12 +45,12 @@ public class EventDAO implements Serializable {
                 String sql = "Insert into Event(Name, Desrciption,Image, BeginDate, EndDate, Area, Username)"
                         + " Values(?,?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getName());
-                stm.setString(2, dto.getDescription());
+                stm.setNString(1, dto.getName());
+                stm.setNString(2, dto.getDescription());
                 stm.setString(3, dto.getImg());
                 stm.setDate(4, dto.getBeginDate());
                 stm.setDate(5, dto.getEndDate());
-                stm.setString(6, dto.getArea());
+                stm.setNString(6, dto.getArea());
                 stm.setString(7, dto.getUsername());
                 int i = stm.executeUpdate();
                 if (i > 0) {
@@ -72,7 +72,6 @@ public class EventDAO implements Serializable {
         PreparedStatement stm = null;
         ResultSet rs = null;
         this.listEvent = null;
-        System.out.println("1111111111111111111111111111111111111");
         try {
             con = DBUtil.makeConnection();
 
@@ -82,15 +81,15 @@ public class EventDAO implements Serializable {
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int id = rs.getInt("Id");
-                    String name = rs.getString("Name");
-                    String description = rs.getString("Desrciption");
+                    String name = rs.getNString("Name");
+                    String description = rs.getNString("Desrciption");
                     Date beginDate = rs.getDate("BeginDate");
                     Date endDate = rs.getDate("EndDate");
-                    String area = rs.getString("Area");
+                    String area = rs.getNString("Area");
                     String username = rs.getString("Username");
                     String img = rs.getString("Image");
                     boolean status = rs.getBoolean("Status");
-                    EventDTO dto = new EventDTO(id, name, description, beginDate, endDate, area, username, img, status);
+                    EventDTO dto = new EventDTO(id, img, name, description, beginDate, endDate, area, username, status);
                     if (this.listEvent == null) {
                         this.listEvent = new ArrayList<>();
                     }
@@ -109,7 +108,7 @@ public class EventDAO implements Serializable {
             }
         }
     }
-    
+
     public boolean updateEvent(EventDTO dto) throws SQLException {
         PreparedStatement stm = null;
         boolean result = false;
@@ -120,8 +119,8 @@ public class EventDAO implements Serializable {
                         + " Set Name = ?, Desrciption = ?, BeginDate = ?, EndDate = ?, Status = ?, Image = ?"
                         + " Where Id = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, dto.getName());
-                stm.setString(2, dto.getDescription());
+                stm.setNString(1, dto.getName());
+                stm.setNString(2, dto.getDescription());
                 stm.setDate(3, dto.getBeginDate());
                 stm.setDate(4, dto.getEndDate());
                 stm.setBoolean(5, dto.isStatus());
@@ -133,7 +132,7 @@ public class EventDAO implements Serializable {
                 }
             }
         } finally {
-            
+
             if (stm != null) {
                 stm.close();
             }
@@ -142,5 +141,49 @@ public class EventDAO implements Serializable {
             }
         }
         return result;
+    }
+
+    public EventDTO getEventByShopId(String key) throws SQLException {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        EventDTO dto = null;
+        try {
+            con = DBUtil.makeConnection();
+            if (con != null) {
+                String sql = "Select e.id, e.Image, e.Name, e.Desrciption, e.BeginDate, e.EndDate, e.Area, e.Username, e.Status "
+                        + " from Event e, Shop s "
+                        + "	where e.Id = s.EventId "
+                        + "	and s.Id = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setString(1, key);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int id = rs.getInt("Id");
+                    String img = rs.getString("Image");
+                    String name = rs.getNString("Name");
+                    String des = rs.getNString("Desrciption");
+                    Date beginDate = rs.getDate("BeginDate");
+                    Date endDate = rs.getDate("EndDate");
+                    String area = rs.getString("Area");
+                    String username = rs.getString("Username");
+                    Boolean status = rs.getBoolean("Status");
+                    dto = new EventDTO(id, img, name, des, beginDate, endDate, area, username, status);
+
+                }
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return dto;
     }
 }
